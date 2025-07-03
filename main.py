@@ -56,8 +56,8 @@ def initialize_models():
                 max_new_tokens=3000,
                 top_k=3,
                 top_p=0.2,
-                profiling=False
-                # add n_ctx if out of context window usage: n_ctx=2048
+                profiling=False,
+                nctx=8192                # add n_ctx if out of context window usage: n_ctx=2048
             )
 
             # Initialize the text inference model
@@ -69,9 +69,8 @@ def initialize_models():
                 max_new_tokens=3000,  # Adjust as needed
                 top_k=3,
                 top_p=0.3,
-                profiling=False
-                # add n_ctx if out of context window usage: n_ctx=2048
-
+                profiling=False,
+                nctx=8192
             )
         print("**----------------------------------------------**")
         print("**       Image inference model initialized      **")
