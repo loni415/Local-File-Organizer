@@ -73,9 +73,11 @@ def generate_image_metadata(image_path, progress, task_id, image_inference, text
     progress.update(task_id, advance=1 / total_steps)
 
     # Step 2: Generate filename using text_inference
-    filename_prompt = f"""Based on the description below, generate a specific and descriptive filename for the image.
-Limit the filename to a maximum of 3 words. Use nouns and avoid starting with verbs like 'depicts', 'shows', 'presents', etc.
-Do not include any data type words like 'image', 'jpg', 'png', etc. Use only letters and connect words with underscores.
+    filename_prompt = f"""Based on the description below, generate a short, descriptive filename for the image.
+Limit the filename to 3-5 words.
+- Focus on the main subject and key objects.
+- Use nouns and adjectives.
+- Connect words with underscores.
 
 Description: {description}
 
@@ -85,7 +87,7 @@ Filename: sunset_over_mountains
 
 Now generate the filename.
 
-Output only the filename, without any additional text.
+Output only the filename.
 
 Filename:"""
     filename_response = text_inference.create_completion(filename_prompt)
@@ -95,9 +97,10 @@ Filename:"""
     progress.update(task_id, advance=1 / total_steps)
 
     # Step 3: Generate folder name from description using text_inference
-    foldername_prompt = f"""Based on the description below, generate a general category or theme that best represents the main subject of this image.
-This will be used as the folder name. Limit the category to a maximum of 2 words. Use nouns and avoid verbs.
-Do not include specific details, words from the filename, or any generic terms like 'untitled' or 'unknown'.
+    foldername_prompt = f"""Based on the description below, generate a single, general folder name for this image.
+Limit the category to 1-2 words.
+- This should be a broad category (e.g., 'nature', 'technology', 'people').
+- Avoid specific details.
 
 Description: {description}
 
@@ -113,7 +116,7 @@ Examples:
 
 Now generate the category.
 
-Output only the category, without any additional text.
+Output only the category.
 
 Category:"""
     foldername_response = text_inference.create_completion(foldername_prompt)

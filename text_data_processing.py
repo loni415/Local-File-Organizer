@@ -72,9 +72,11 @@ def generate_text_metadata(input_text, file_path, progress, task_id, text_infere
     progress.update(task_id, advance=1 / total_steps)
 
     # Step 2: Generate filename
-    filename_prompt =  f"""Based on the summary below, generate a specific and descriptive filename that captures the essence of the document.
-Limit the filename to a maximum of 7 words. Use nouns and avoid starting with verbs like 'depicts', 'shows', 'presents', etc.
-Do not include any data type words like 'text', 'document', 'pdf', etc. Use only letters and connect words with underscores.
+    filename_prompt =  f"""Based on the summary below, generate a specific and descriptive filename that captures the main subject of the document.
+Limit the filename to a maximum of 7 words.
+- Use important keywords and nouns.
+- Avoid generic phrases.
+- Connect words with underscores.
 
 Summary: {description}
 
@@ -87,7 +89,7 @@ Examples:
 
 Now generate the filename.
 
-Output only the filename, without any additional text.
+Output only the filename.
 
 Filename:"""
     filename_response = text_inference.create_completion(filename_prompt)
@@ -97,9 +99,10 @@ Filename:"""
     progress.update(task_id, advance=1 / total_steps)
 
     # Step 3: Generate folder name from summary
-    foldername_prompt = f"""Based on the summary below, generate a general category or theme that best represents the main subject of this document.
-This will be used as the folder name. Limit the category to a maximum of 5 words. Use nouns and avoid verbs.
-Do not include specific details, words from the filename, or any generic terms like 'untitled' or 'unknown'.
+    foldername_prompt = f"""Based on the summary below, generate a single, concise folder name that represents the main category of this document.
+This will be used as the folder name. Limit the category to a maximum of 3 words.
+- Use a high-level topic (e.g., 'science', 'history', 'finance').
+- Avoid specific details from the filename.
 
 Summary: {description}
 
@@ -112,7 +115,7 @@ Examples:
 
 Now generate the category.
 
-Output only the category, without any additional text.
+Output only the category.
 
 Category:"""
     foldername_response = text_inference.create_completion(foldername_prompt)
