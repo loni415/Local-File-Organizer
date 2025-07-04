@@ -73,7 +73,7 @@ def generate_text_metadata(input_text, file_path, progress, task_id, text_infere
 
     # Step 2: Generate filename
     filename_prompt =  f"""Based on the summary below, generate a specific and descriptive filename that captures the essence of the document.
-Limit the filename to a maximum of 3 words. Use nouns and avoid starting with verbs like 'depicts', 'shows', 'presents', etc.
+Limit the filename to a maximum of 7 words. Use nouns and avoid starting with verbs like 'depicts', 'shows', 'presents', etc.
 Do not include any data type words like 'text', 'document', 'pdf', etc. Use only letters and connect words with underscores.
 
 Summary: {description}
@@ -98,7 +98,7 @@ Filename:"""
 
     # Step 3: Generate folder name from summary
     foldername_prompt = f"""Based on the summary below, generate a general category or theme that best represents the main subject of this document.
-This will be used as the folder name. Limit the category to a maximum of 2 words. Use nouns and avoid verbs.
+This will be used as the folder name. Limit the category to a maximum of 5 words. Use nouns and avoid verbs.
 Do not include specific details, words from the filename, or any generic terms like 'untitled' or 'unknown'.
 
 Summary: {description}
@@ -159,23 +159,23 @@ Category:"""
         return '_'.join(filtered_words)
 
     # Process filename
-    filename = clean_ai_output(filename, max_words=3)
+    filename = clean_ai_output(filename, max_words=7)
     if not filename or filename.lower() in ('untitled', ''):
         # Use keywords from the description
         filename = clean_ai_output(description, max_words=3)
     if not filename:
         filename = 'document_' + os.path.splitext(os.path.basename(file_path))[0]
 
-    sanitized_filename = sanitize_filename(filename, max_words=3)
+    sanitized_filename = sanitize_filename(filename, max_words=7)
 
     # Process foldername
-    foldername = clean_ai_output(foldername, max_words=2)
+    foldername = clean_ai_output(foldername, max_words=5)
     if not foldername or foldername.lower() in ('untitled', ''):
         # Attempt to extract keywords from the description
-        foldername = clean_ai_output(description, max_words=2)
+        foldername = clean_ai_output(description, max_words=5)
         if not foldername:
             foldername = 'documents'
 
-    sanitized_foldername = sanitize_filename(foldername, max_words=2)
+    sanitized_foldername = sanitize_filename(foldername, max_words=5)
 
     return sanitized_foldername, sanitized_filename, description
