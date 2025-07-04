@@ -43,7 +43,7 @@ def initialize_models():
     if image_inference is None or text_inference is None:
         # Initialize the models
         model_path = "llava-v1.6-vicuna-7b:q4_0"
-        model_path_text = "Llama3.1-8B-Instruct:fp16"
+        model_path_text = "Meta-Llama-3.1-8B-Instruct:fp16"
 
         # Use the filter_specific_output context manager
         with filter_specific_output():
